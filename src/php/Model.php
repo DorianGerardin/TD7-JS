@@ -24,9 +24,25 @@ class Model {
         }
     }
 
+    public static function selectAllAdherents() {
+
+		$sql = Model::$pdo->query("SELECT A.idAdherent, A.nomAdherent, COUNT(E.idAdherent) nbEmprunts
+                                   FROM emprunt E RIGHT OUTER JOIN adherent A ON A.idAdherent = E.idAdherent
+                                   GROUP BY A.idAdherent;");
+
+        //donne l'id, le nom et le nombre d'emprunt d'un adherent
+
+        $sql->setFetchMode(PDO::FETCH_OBJ);
+        $tabResults = $sql->fetchAll();
+        // renvoi du tableau de résultats
+        return $tabResults;
+	}
+
 }
 
 // on initialise la connexion $pdo
 Model::init_pdo();
 
 ?>
+
+
