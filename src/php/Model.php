@@ -36,6 +36,34 @@ class Model {
         $tabResults = $sql->fetchAll();
         // renvoi du tableau de résultats
         return $tabResults;
+    }
+    
+    public static function selectLivresDispos() {
+
+		$sql = Model::$pdo->query("SELECT idLivre, titreLivre
+                                   FROM livre 
+                                   WHERE idLivre NOT IN (SELECT idLivre
+                                                         FROM emprunt)");
+
+        //donne l'id, le titre des livres qui sont disponibles
+
+        $sql->setFetchMode(PDO::FETCH_OBJ);
+        $tabResults = $sql->fetchAll();
+        // renvoi du tableau de résultats
+        return $tabResults;
+    }
+    
+    public static function selectLivresEmpruntes() {
+
+        $sql = Model::$pdo->query("SELECT L.idLivre, L.titreLivre
+                                   FROM emprunt E JOIN livre L ON L.idLivre = E.idLivre");
+
+        //donne l'id, le titre des livres qui sont empruntés
+
+        $sql->setFetchMode(PDO::FETCH_OBJ);
+        $tabResults = $sql->fetchAll();
+        // renvoi du tableau de résultats
+        return $tabResults;
 	}
 
 }

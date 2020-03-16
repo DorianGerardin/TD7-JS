@@ -15,7 +15,7 @@ class Adherents {
 		for (var i = 0; i < tableau.length; i++) {
 			let adherent = document.createElement("li");
 			adherent.innerHTML = tableau[i];
-			listeAdh.appendChild(adherent);
+			liste.appendChild(adherent);
 		}
 		listeAdh.appendChild(liste);
 	}
@@ -32,13 +32,16 @@ class Adherents {
 
 	callback(req) {
 		let xhrJSON = JSON.parse(req.responseText);
-		let tabName = new Array;
+		let tab = new Array;
 		for (var i = 0; i < xhrJSON.length; i++) {
-			let emprunt = "";
-			xhrJSON[i].nbEmprunts > 1 ? emprunt = "emprunts" : emprunt = "emprunt"
-			tabName.push(xhrJSON[i].idAdherent + "-" + xhrJSON[i].nomAdherent + " (" + xhrJSON[i].nbEmprunts + " " + emprunt + ")");
+			let emprunt;
+			xhrJSON[i].nbEmprunts > 1 ? emprunt = " (" + xhrJSON[i].nbEmprunts + " emprunts)" : emprunt = " (" + xhrJSON[i].nbEmprunts + " emprunt)";
+			if (xhrJSON[i].nbEmprunts == 0) {
+				emprunt = "";
+			}
+			tab.push(xhrJSON[i].idAdherent + "-" + xhrJSON[i].nomAdherent + emprunt);
 		}
-		Adherents.afficheAdherents(tabName);
+		Adherents.afficheAdherents(tab);
 	}
 
 }
