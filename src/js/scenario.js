@@ -9,3 +9,11 @@ ajoutAdherent.addEventListener("click", function() {
         adherent.ajouterAdherent(adherent.callback);
     }
 })
+
+let ajoutLivre = document.getElementById("ajouterLivre");
+ajoutLivre.addEventListener("click", function() {
+    let livre = document.getElementById("titreLivre").value;
+    if (livre.length > 0) {
+        livresDispos.ajouterLivre(livresDispos.callback);
+    }
+})

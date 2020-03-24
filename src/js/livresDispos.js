@@ -1,15 +1,15 @@
 class LivresDispos {
 	
-	constructor() {
-		let listeLivresDispos = document.getElementById("listeLivresDisponibles");
-		while (listeLivresDispos.children.length > 0) {
-			listeLivresDispos.removeChild(listeLivresDispos.children[0]);
-		}
+	constructor() {	
 		this.requeteAJAX(this.callback);
 	}
 
 	static afficheLivresDispos(tableau) {
 		let listeLivresDispos = document.getElementById("listeLivresDisponibles");
+
+		while (listeLivresDispos.children.length > 0) {
+			listeLivresDispos.removeChild(listeLivresDispos.children[0]);
+		}
 
 		let liste = document.createElement("ul");
 		for (var i = 0; i < tableau.length; i++) {
@@ -19,6 +19,17 @@ class LivresDispos {
 		}
 		listeLivresDispos.appendChild(liste);
 	}
+
+	ajouterLivre(callback) {
+		let livre = document.getElementById("titreLivre").value
+		let url = "php/requeteAjoutLivre.php?livre=" + livre;
+		let requete = new XMLHttpRequest();
+		requete.open("GET", url, true);
+		requete.addEventListener("load", function() {
+			callback(requete);
+		});
+		requete.send(null);
+	}		
 
 	requeteAJAX(callback) {
 		let url = "php/requeteLivresDispos.php";
