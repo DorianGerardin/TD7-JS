@@ -1,15 +1,14 @@
 class Adherents {
 	
 	constructor() {
-		let listeAdh = document.getElementById("listeAdherents");
-		while (listeAdh.children.length > 0) {
-			listeAdh.removeChild(listeAdh.children[0]);
-		}
 		this.requeteAJAX(this.callback);
 	}
 
 	static afficheAdherents(tableau) {
 		let listeAdh = document.getElementById("listeAdherents");
+		while (listeAdh.children.length > 0) {
+			listeAdh.removeChild(listeAdh.children[0]);
+		}
 
 		let liste = document.createElement("ul");
 		for (var i = 0; i < tableau.length; i++) {
@@ -18,6 +17,17 @@ class Adherents {
 			liste.appendChild(adherent);
 		}
 		listeAdh.appendChild(liste);
+	}
+
+	ajouterAdherent(callback) {
+		let adherent = document.getElementById("nomAdherent").value
+		let url = "php/requeteAjoutAdherent.php?adherent=" + adherent;
+		let requete = new XMLHttpRequest();
+		requete.open("GET", url, true);
+		requete.addEventListener("load", function() {
+			callback(requete);
+		});
+		requete.send(null);
 	}
 
 	requeteAJAX(callback) {
