@@ -18,6 +18,32 @@ class LivresDispos {
 			liste.appendChild(livresDispos);
 		}
 		listeLivresDispos.appendChild(liste);
+		liste.addEventListener("click", function() {
+			LivresDispos.messageEmprunterLivre();
+		})
+	}
+
+	static messageEmprunterLivre() { 
+		let target = event.target;
+		let tiret = target.innerHTML.indexOf('-');
+		let livre = target.innerHTML.substring(tiret + 1, target.innerHTML.length);
+		let idLivre = target.innerHTML.substring(0, tiret);
+		let idAdherent = prompt("Prêt de \"" + livre + "\". \n\n" + "n° de l'emprunteur ?");
+		if (idAdherent != "") {
+			LivresDispos.emprunterLivre(LivresDispos.callback, idAdherent, idLivre);
+		}
+	}
+
+	static emprunterLivre(callback, idAdherent, idLivre) {
+		let url = "php/requeteEmprunterLivre.php?idAdherent=" + idAdherent + "&idLivre=" + idLivre;
+		let requete = new XMLHttpRequest();
+		requete.open("GET", url, true);
+		requete.addEventListener("load", function() {
+			LivresDispos.callback(requete);
+			new Adherents();
+			new LivresEmpruntes();
+		});
+		requete.send(null);
 	}
 
 	ajouterLivre(callback) {
@@ -26,7 +52,7 @@ class LivresDispos {
 		let requete = new XMLHttpRequest();
 		requete.open("GET", url, true);
 		requete.addEventListener("load", function() {
-			callback(requete);
+			LivresDispos.callback(requete);
 		});
 		requete.send(null);
 	}		
@@ -36,12 +62,12 @@ class LivresDispos {
 		let requete = new XMLHttpRequest();
 		requete.open("GET", url, true);
 		requete.addEventListener("load", function() {
-			callback(requete);
+			LivresDispos.callback(requete);
 		});
 		requete.send(null);
 	}
 
-	callback(req) {
+	static callback(req) {
 		let xhrJSON = JSON.parse(req.responseText);
 		let tab = new Array;
 		for (var i = 0; i < xhrJSON.length; i++) {

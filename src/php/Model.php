@@ -94,6 +94,25 @@ class Model {
             die("Erreur lors de la recherche dans la base de données.");
         }
     }
+
+    public static function emprunterLivre($adherent, $livre) {
+        
+        try {
+            // préparation de la requête
+            $sql = "INSERT INTO emprunt (idAdherent, idLivre) VALUES (:adherent, :livre)";
+            $req_prep = self::$pdo->prepare($sql);
+            // passage de la valeur de name_tag
+            $values = array("adherent" => $adherent,
+                            "livre" => $livre);
+            // exécution de la requête préparée
+            $req_prep->execute($values);
+            $tabResults = self::selectLivresDispos();
+            return $tabResults;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
     
     public static function selectLivresDispos() {
 

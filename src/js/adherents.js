@@ -17,7 +17,7 @@ class Adherents {
 			liste.appendChild(adherent);
 		}
 		listeAdh.appendChild(liste);
-		listeAdh.addEventListener("click", function() {
+		liste.addEventListener("click", function() {
 			Adherents.afficherLivresEmpruntes();
 		});
 	}
