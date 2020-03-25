@@ -73,6 +73,27 @@ class Model {
             die("Erreur lors de la recherche dans la base de données.");
         }
     }
+
+    public static function selectLivresByAdherent($adherent) {
+        
+        try {
+            // préparation de la requête
+            $sql = "SELECT A.*, L.titreLivre
+                    FROM emprunt E RIGHT OUTER JOIN adherent A ON A.idAdherent = E.idAdherent
+                                               LEFT OUTER JOIN livre L ON L.idLivre = E.idLivre
+                    WHERE A.idAdherent = :adherent;";
+            $req_prep = self::$pdo->prepare($sql);
+            // passage de la valeur de name_tag
+            $values = array("adherent" => $adherent);
+            // exécution de la requête préparée
+            $req_prep->execute($values);
+            $results = $req_prep->fetchAll();
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
     
     public static function selectLivresDispos() {
 

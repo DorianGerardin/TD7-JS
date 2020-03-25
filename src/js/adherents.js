@@ -17,6 +17,34 @@ class Adherents {
 			liste.appendChild(adherent);
 		}
 		listeAdh.appendChild(liste);
+		listeAdh.addEventListener("click", function() {
+			Adherents.afficherLivresEmpruntes();
+		});
+	}
+
+	static afficherLivresEmpruntes() { 
+		let target = event.target;
+		let tiret = target.innerHTML.indexOf('-');
+		let idAdherent = target.innerHTML.substring(0, tiret);
+		let url = "php/requeteAfficheLivresAdherent.php?idAdherent=" + idAdherent;
+		let requete = new XMLHttpRequest();
+		requete.open("GET", url, true);
+		requete.addEventListener("load", function() {
+			let xhrJSON = JSON.parse(requete.responseText);
+
+			let contenu;
+			if (xhrJSON[0].titreLivre === null) {
+				contenu = xhrJSON[0].nomAdherent + " a 0 emprunt en ce moment";
+			}
+			else {
+				contenu = xhrJSON[0].nomAdherent + " a " + xhrJSON.length + " emprunts en ce moment : \n\n";
+				for (let i = 0; i < xhrJSON.length; i++) {
+					contenu += "- " + xhrJSON[i].titreLivre + "\n"; 
+				} 
+			}
+			alert(contenu);
+		});
+		requete.send(null);
 	}
 
 	ajouterAdherent(callback) {
