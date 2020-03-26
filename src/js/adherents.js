@@ -52,7 +52,7 @@ class Adherents {
 	ajouterAdherent(callback) {
 		let adherent = document.getElementById("nomAdherent").value
 		let url = "php/requeteAjoutAdherent.php?adherent=" + adherent;
-		document.getElementsByName("txtAdh")[0].value = "";
+		document.getElementById("nomAdherent").value = "";
 		let requete = new XMLHttpRequest();
 		requete.open("GET", url, true);
 		requete.addEventListener("load", function() {

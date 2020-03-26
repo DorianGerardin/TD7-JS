@@ -49,7 +49,7 @@ class LivresDispos {
 	ajouterLivre(callback) {
 		let livre = document.getElementById("titreLivre").value
 		let url = "php/requeteAjoutLivre.php?livre=" + livre;
-		document.getElementsByName("txtLivre")[0].value = "";
+		document.getElementById("titreLivre").value = "";
 		let requete = new XMLHttpRequest();
 		requete.open("GET", url, true);
 		requete.addEventListener("load", function() {
