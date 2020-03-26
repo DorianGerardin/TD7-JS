@@ -149,8 +149,8 @@ class Model {
             $tabResults = self::selectLivresDispos();
             return $tabResults;
         } catch (PDOException $e) {
-            echo $e->getMessage();
-            die("Erreur lors de la recherche dans la base de données.");
+            $tabResults = self::selectLivresDispos();
+            return $tabResults;
         }
     }
     
