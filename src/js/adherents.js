@@ -37,7 +37,9 @@ class Adherents {
 				contenu = xhrJSON[0].nomAdherent + " a 0 emprunt en ce moment";
 			}
 			else {
-				contenu = xhrJSON[0].nomAdherent + " a " + xhrJSON.length + " emprunts en ce moment : \n\n";
+				let emprunt;
+				xhrJSON.length > 1 ? emprunt = "emprunts" : emprunt =  "emprunt";
+				contenu = xhrJSON[0].nomAdherent + " a " + xhrJSON.length + " " + emprunt + " en ce moment : \n\n";
 				for (let i = 0; i < xhrJSON.length; i++) {
 					contenu += "- " + xhrJSON[i].titreLivre + "\n"; 
 				} 
